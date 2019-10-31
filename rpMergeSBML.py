@@ -135,12 +135,12 @@ def processify(func):
 #
 #
 @processify
-def singleMerge_mem(member_name, rpsbml_string, inModel):
+def singleMerge_mem(member_name, rpsbml_string, inSBML):
     #open one of the rp SBML files
     rpsbml = rpSBML.rpSBML(member_name, libsbml.readSBMLFromString(rpsbml_string))
     #read the input GEM sbml model
     input_rpsbml = rpSBML.rpSBML('inputMergeModel')
-    input_rpsbml.readSBML(inModel)
+    input_rpsbml.readSBML(inSBML)
     rpsbml.mergeModels(input_rpsbml)
     return libsbml.writeSBMLToString(input_rpsbml.document).encode('utf-8')
 
@@ -148,13 +148,13 @@ def singleMerge_mem(member_name, rpsbml_string, inModel):
 ##
 #
 #
-def runMerge_mem(inputTar, inModel, outputTar):
+def runMerge_mem(inputTar, inSBML, outputTar):
     #loop through all of them and run FBA on them
     with tarfile.open(outputTar, 'w:xz') as tf:
         with tarfile.open(inputTar, 'r:xz') as in_tf:
             for member in in_tf.getmembers():
                 if not member.name=='':
-                    data = singleFBA_mem(member.name, in_tf.extractfile(member).read().decode("utf-8"), inModel)
+                    data = singleFBA_mem(member.name, in_tf.extractfile(member).read().decode("utf-8"), inSBML)
                     fiOut = io.BytesIO(data)
                     info = tarfile.TarInfo(member.name)
                     info.size = len(data)
@@ -168,11 +168,11 @@ def runMerge_mem(inputTar, inModel, outputTar):
 #
 #
 @processify
-def singleMerge_hdd(fileName, sbml_path, inModel, tmpOutputFolder):
+def singleMerge_hdd(fileName, sbml_path, inSBML, tmpOutputFolder):
     rpsbml = rpSBML.rpSBML(fileName)
     rpsbml.readSBML(sbml_path)
     input_rpsbml = rpSBML.rpSBML(fileName+'_merged')
-    input_rpsbml.readSBML(inModel)
+    input_rpsbml.readSBML(inSBML)
     rpsbml.mergeModels(input_rpsbml)
     input_rpsbml.writeSBML(tmpOutputFolder)
 
@@ -180,7 +180,7 @@ def singleMerge_hdd(fileName, sbml_path, inModel, tmpOutputFolder):
 ##
 #
 #
-def runMerge_hdd(inputTar, inModel, outputTar):
+def runMerge_hdd(inputTar, inSBML, outputTar):
     if not os.path.exists(os.getcwd()+'/tmp'):
         os.mkdir(os.getcwd()+'/tmp')
     tmpInputFolder = os.getcwd()+'/tmp/'+''.join(random.choice(string.ascii_lowercase) for i in range(15))
@@ -192,7 +192,7 @@ def runMerge_hdd(inputTar, inModel, outputTar):
     tar.close()
     for sbml_path in glob.glob(tmpInputFolder+'/*'):
         fileName = sbml_path.split('/')[-1].replace('.sbml', '')
-        singleFBA_hdd(fileName, sbml_path, inModel, tmpOutputFolder, dontMerge, pathway_id)
+        singleFBA_hdd(fileName, sbml_path, inSBML, tmpOutputFolder, dontMerge, pathway_id)
     with tarfile.open(outputTar, mode='w:xz') as ot:
         for sbml_path in glob.glob(tmpOutputFolder+'/*'):
             fileName = str(sbml_path.split('/')[-1].replace('.sbml', ''))
@@ -205,12 +205,12 @@ def runMerge_hdd(inputTar, inModel, outputTar):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('Given a collection of sbml files as a tar.xz and a SBML files, merge the two and output the results in a tar.xz')
-    parser.add_argument('-inModel', type=str)
+    parser.add_argument('-inSBML', type=str)
     parser.add_argument('-inputTar', type=str)
     parser.add_argument('-outputTar', type=str)
     params = parser.parse_args()
     #TODO: detect the changes what how many models are inside the TAR and based on the number determine
     # if you use the _mem or _hdd functions
-    #runMerge_mem(params.inputTar, params.inModel, params.outputTar)
-    runMerge_hdd(params.inputTar, params.inModel, params.outputTar)
+    #runMerge_mem(params.inputTar, params.inSBML, params.outputTar)
+    runMerge_hdd(params.inputTar, params.inSBML, params.outputTar)
     exit(0)
