@@ -2,4 +2,4 @@ FROM brsynth/rpbase
 
 WORKDIR /home/
 
-COPY rpMergeSBML.py /home/
+COPY rpTool.py /home/
