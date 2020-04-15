@@ -28,7 +28,7 @@ if __name__ == "__main__":
         with tempfile.TemporaryDirectory() as tmpOutputFolder:
             input_tar = tmpOutputFolder+'/tmp_input.tar.xz'
             output_tar = tmpOutputFolder+'/tmp_output.tar.xz'
-            with tarfile.open(input_tar, mode='w:xz') as tf:
+            with tarfile.open(input_tar, mode='w:gz') as tf:
                 info = tarfile.TarInfo('single.rpsbml.xml')
                 info.size = os.path.getsize(params.input)
                 tf.addfile(tarinfo=info, fileobj=open(params.input, 'rb'))
