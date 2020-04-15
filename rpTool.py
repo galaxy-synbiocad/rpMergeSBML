@@ -17,6 +17,8 @@ import sys #exit using sys exit if any error is encountered
 sys.path.insert(0, '/home/')
 import rpSBML
 
+logging.disable(logging.INFO)
+logging.disable(logging.WARNING)
 
 ##
 #
