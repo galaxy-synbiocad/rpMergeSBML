@@ -26,7 +26,7 @@ def main(inputfile,
          lib_size,
          input_parts)
     docker_client = docker.from_env()
-    image_str = 'brsynth/rpmergesbml-standalone'
+    image_str = 'brsynth/rpmergesbml-standalone:dev'
     try:
         image = docker_client.images.get(image_str)
     except docker.errors.ImageNotFound:
@@ -45,6 +45,12 @@ def main(inputfile,
                    '/home/tmp_output/target_sbml.dat',
                    '-input',
                    '/home/tmp_output/input.dat',
+                   '-input_format',
+                   str(input_format),
+                   '-sink_species_group_id',
+                   str(sink_species_group_id),
+                   '-species_group_id',
+                   str(species_group_id),
                    '-input_format',
                    str(input_format),
                    '-output',
@@ -67,14 +73,12 @@ def main(inputfile,
 #
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('Convert the results of RP2 and rp2paths to SBML files')
+    parser.add_argument('-target_sbml', type=str)
     parser.add_argument('-input', type=str)
     parser.add_argument('-input_format', type=str)
-    parser.add_argument('-input_sbol', type=str)
+    parser.add_argument('-sink_species_group_id', type=str, default='rp_sink_species')
+    parser.add_argument('-species_group_id', type=str, default='central_species')
     parser.add_argument('-output', type=str)
-    parser.add_argument('-pathway_id', type=str, default='rp_pathway')
-    parser.add_argument('-max_variants', type=int, default=5)
-    parser.add_argument('-lib_size', type=int, default=102)
-    parser.add_argument('-input_parts', type=str, default=None)
     params = parser.parse_args()
     main(params.input,
          params.input_format,

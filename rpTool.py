@@ -23,7 +23,11 @@ logging.disable(logging.WARNING)
 ##
 #
 #
-def mergeSBML_mem(input_tar, target_sbml, output_tar):
+def mergeSBML_mem(input_tar,
+                  target_sbml,
+                  output_tar,
+                  species_group_id='central_species',
+                  sink_species_group_id='rp_sink_species'):
     #loop through all of them and run FBA on them
     with tarfile.open(output_tar, 'w:gz') as tf:
         with tarfile.open(input_tar, 'r') as in_tf:
@@ -39,7 +43,7 @@ def mergeSBML_mem(input_tar, target_sbml, output_tar):
                     rpsbml = rpSBML.rpSBML(file_name, libsbml.readSBMLFromString(
                             in_tf.extractfile(member).read().decode('utf-8')))
                     target_rpsbml = rpSBML.rpSBML(file_name, libsbml.readSBMLFromFile(target_sbml))
-                    rpsbml.mergeModels(target_rpsbml)
+                    rpsbml.mergeModels(target_rpsbml, species_group_id, sink_species_group_id)
                     fiOut = io.BytesIO(libsbml.writeSBMLToString(target_rpsbml.document).encode('utf-8'))
                     info = tarfile.TarInfo(file_name+'_merged.sbml.xml')
                     info.size = len(data)
@@ -49,7 +53,11 @@ def mergeSBML_mem(input_tar, target_sbml, output_tar):
 ##
 #
 #
-def mergeSBML_hdd(input_tar, target_sbml, output_tar):
+def mergeSBML_hdd(input_tar,
+                  target_sbml,
+                  output_tar,
+                  species_group_id='central_species',
+                  sink_species_group_id='rp_sink_species'):
     with tempfile.TemporaryDirectory() as tmpInputFolder:
         with tempfile.TemporaryDirectory() as tmpOutputFolder:
             tar = tarfile.open(input_tar, 'r')
@@ -64,7 +72,7 @@ def mergeSBML_hdd(input_tar, target_sbml, output_tar):
                 rpsbml.readSBML(sbml_path)
                 target_rpsbml = rpSBML.rpSBML(file_name)
                 target_rpsbml.readSBML(target_sbml)
-                rpsbml.mergeModels(target_rpsbml)
+                rpsbml.mergeModels(target_rpsbml, species_group_id, sink_species_group_id)
                 target_rpsbml.writeSBML(tmpOutputFolder)
             if len(glob.glob(tmpOutputFolder+'/*'))==0:
                 logging.error('rpMergeSBML has generated no results')

@@ -18,11 +18,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser('Given a collection of sbml files as a tar.xz and a SBML files, merge the two and output the results in a tar.xz')
     parser.add_argument('-target_sbml', type=str)
     parser.add_argument('-input', type=str)
-    parser.add_argument('-input_format', type=str)
+    parser.add_argument('-input_format', type=str), 
+    parser.add_argument('-sink_species_group_id', type=str, default='rp_sink_species')
+    parser.add_argument('-species_group_id', type=str, default='central_species')
     parser.add_argument('-output', type=str)
     params = parser.parse_args()
     if params.input_format=='tar': 
-        rpTool.mergeSBML_hdd(params.input, params.target_sbml, params.output)
+        rpTool.mergeSBML_hdd(params.input, params.target_sbml, params.output, params.species_group_id, params.sink_species_group_id)
     elif params.input_format=='sbml': 
         #make the tar.xz 
         with tempfile.TemporaryDirectory() as tmpOutputFolder:
