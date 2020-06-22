@@ -1,1 +1,6 @@
 test/
+OLD/
+__pycache__/
+galaxy/
+rpSBML.py
+test.tar
