@@ -10,8 +10,9 @@ import rpTool
 import rpCache
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    #level=logging.DEBUG,
     #level=logging.WARNING,
+    level=logging.ERROR,
     format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s',
     datefmt='%d-%m-%Y %H:%M:%S',
 )
@@ -20,7 +21,8 @@ def main(input_tar,
          target_sbml,
          output_tar,
          species_group_id='central_species',
-         sink_species_group_id='rp_sink_species'): 
+         sink_species_group_id='rp_sink_species',
+         pathway_id='rp_pathway'): 
     with tempfile.TemporaryDirectory() as tmpInputFolder:
         inchikey_enriched_target_sbml = os.path.join(tmpInputFolder, 'tmp.sbml')
         inchikeyMIRIAM.main(target_sbml, inchikey_enriched_target_sbml)
