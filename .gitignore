@@ -1,6 +1,6 @@
 test/
 OLD/
 __pycache__/
-galaxy/
 rpSBML.py
+rpMerge.py
 test.tar
