@@ -26,7 +26,7 @@ def main(inputfile,
          lib_size,
          input_parts)
     docker_client = docker.from_env()
-    image_str = 'brsynth/rpmergesbml-standalone:v1'
+    image_str = 'brsynth/rpmergesbml-standalone:v2'
     try:
         image = docker_client.images.get(image_str)
     except docker.errors.ImageNotFound:

@@ -15,6 +15,7 @@ import logging
 
 import sys #exit using sys exit if any error is encountered
 import rpSBML
+import rpMerge
 
 
 ##
@@ -69,7 +70,8 @@ def mergeSBML_hdd(input_tar,
                 rpsbml.readSBML(sbml_path)
                 target_rpsbml = rpSBML.rpSBML(file_name)
                 target_rpsbml.readSBML(target_sbml)
-                rpsbml.mergeModels(target_rpsbml, species_group_id, sink_species_group_id)
+                rpmerge = rpMerge.rpMerge()
+                species_source_target, reac_replace = rpmerge.mergeModels(rpsbml, target_rpsbml)
                 target_rpsbml.writeSBML(tmpOutputFolder)
             if len(glob.glob(tmpOutputFolder+'/*'))==0:
                 logging.error('rpMergeSBML has generated no results')

@@ -1,4 +1,4 @@
-FROM brsynth/rpbase:21
+FROM brsynth/rpbase:2
 
 RUN git clone https://github.com/Galaxy-SynBioCAD/inchikeyMIRIAM.git -b master
 RUN mv inchikeyMIRIAM/inchikeyMIRIAM.py /home/
