@@ -5,4 +5,4 @@ RUN mv inchikeyMIRIAM/inchikeyMIRIAM.py /home/
 RUN rm -r inchikeyMIRIAM
 
 COPY rpTool.py /home/
-COPY tool_rpMergeSBML.py /home/
+COPY galaxy/code/tool_rpMergeSBML.py /home/
