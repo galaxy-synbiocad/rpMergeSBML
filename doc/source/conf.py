@@ -22,6 +22,14 @@ try:
 except ImportError:
     autodoc_mock_imports.append('rpSBML')
 try:
+    import inchikeyMIRIAM
+except ImportError:
+    autodoc_mock_imports.append('inchikeyMIRIAM')
+try:
+    import rpMerge
+except ImportError:
+    autodoc_mock_imports.append('rpMerge')
+try:
     import rpCache
 except ImportError:
     autodoc_mock_imports.append('rpCache')

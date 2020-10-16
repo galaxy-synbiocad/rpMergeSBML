@@ -20,7 +20,7 @@ import rpMerge
 
 def mergeSBML_hdd(input_tar,
                   target_sbml,
-                  output_tar)
+                  output_tar):
     """Merge one or more SBML files together
 
     :param input_tar: The path of the TAR input containing the SBML file
@@ -43,28 +43,26 @@ def mergeSBML_hdd(input_tar,
                 logging.error('Input file is empty')
                 return False
             for sbml_path in glob.glob(tmpInputFolder+'/*'):
-                file_name = sbml_path.split('/')[-1].replace('.sbml', '').replace('.xml', '').replace('.rpsbml', '')
+                '''
                 rpsbml = rpSBML.rpSBML(file_name)
                 rpsbml.readSBML(sbml_path)
                 target_rpsbml = rpSBML.rpSBML(file_name)
                 target_rpsbml.readSBML(target_sbml)
                 rpmerge = rpMerge.rpMerge()
 				species_source_target, reactions_convert = rpmerge.mergeModels(rpsbml, rpsbml_gem)
-				if target_reaction in reactions_convert:
-					logging.warning('The target_reaction ('+str(target_reaction)+') has been detected in model '+str(file_name)+', ignoring this model...')
-					return False
-				rev_reactions_convert = {v: k for k, v in reactions_convert.items()}
-				logging.debug('species_source_target: '+str(species_source_target))
-				logging.debug('reactions_convert: '+str(reactions_convert))
-				logging.debug('rev_reactions_convert: '+str(rev_reactions_convert))
-                target_rpsbml.writeSBML(tmpOutputFolder)
+                '''
+
+                file_name = sbml_path.split('/')[-1].replace('.sbml', '').replace('.xml', '').replace('.rpsbml', '').replace('_sbml', '').replace('_rpsbml', '')
+                rpmerge = rpMerge.rpMerge()
+                rpmerge.mergeSBMLFiles(sbml_path, target_sbml, tmpOutputFolder)
+                os.replace(os.path.join(tmpOutputFolder, 'target.sbml'), os.path.join(tmpOutputFolder, file_name+'_sbml.xml'))
             if len(glob.glob(tmpOutputFolder+'/*'))==0:
                 logging.error('rpMergeSBML has generated no results')
                 return False
             with tarfile.open(output_tar, mode='w:gz') as ot:
                 for sbml_path in glob.glob(tmpOutputFolder+'/*'):
-                    file_name = str(sbml_path.split('/')[-1].replace('.sbml', '').replace('.xml', '').replace('.rpsbml', ''))
-                    info = tarfile.TarInfo(file_name+'_merged.sbml.xml')
+                    file_name = str(sbml_path.split('/')[-1].replace('.sbml', '').replace('.xml', '').replace('.rpsbml', '').replace('_sbml', '').replace('_rpsbml', ''))
+                    info = tarfile.TarInfo(file_name+'_sbml.xml')
                     info.size = os.path.getsize(sbml_path)
                     ot.addfile(tarinfo=info, fileobj=open(sbml_path, 'rb'))
     return True

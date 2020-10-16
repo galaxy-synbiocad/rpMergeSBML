@@ -17,7 +17,7 @@ import docker
 def main(sourcefile,
          inout_format,
          target_sbml,
-         output)
+         output):
     """Merge two SBML files or a collection of SBML files in the form of a TAR and another SBML file
 
     :param sourcefile: The path of the TAR or SBML input containing the SBML file
@@ -49,15 +49,14 @@ def main(sourcefile,
         if os.path.exists(sourcefile) or os.path.exists(target_sbml):
             shutil.copy(sourcefile, tmpOutputFolder+'/input.dat')
             shutil.copy(target_sbml, tmpOutputFolder+'/target_sbml.dat')
-            command = ['python /home/tool_rpMergeSBML.py',
+            command = ['python',
+                       '/home/tool_rpMergeSBML.py',
                        '-target_sbml',
                        '/home/tmp_output/target_sbml.dat',
-                       '-source',
+                       '-sourcefile',
                        '/home/tmp_output/input.dat',
                        '-inout_format',
                        str(inout_format),
-                       '-pathway_id',
-                       str(pathway_id),
                        '-output',
                        '/home/tmp_output/output.dat']
             container = docker_client.containers.run(image_str,
@@ -67,7 +66,8 @@ def main(sourcefile,
                                                      volumes={tmpOutputFolder+'/': {'bind': '/home/tmp_output', 'mode': 'rw'}})
             container.wait()
             err = container.logs(stdout=False, stderr=True)
-			err_str = err.decode('utf-8')
+            err_str = err.decode('utf-8')
+            print(err_str)
             if 'ERROR' in err_str:
                 print(err_str)
             elif 'WARNING' in err_str:
@@ -79,8 +79,7 @@ def main(sourcefile,
             container.remove()
         else:
             logging.error('Cannot find one or both of these files: '+str(sourcefile)+' or '+str(target_sbml))
-			exit(1)
-
+            exit(1)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('Convert the results of RP2 and rp2paths to SBML files')

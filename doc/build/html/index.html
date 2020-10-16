@@ -59,6 +59,72 @@
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 </div>
+<dl class="class">
+<dt id="rpTool.mergeSBML_hdd">
+<em class="property">class </em><code class="descclassname">rpTool.</code><code class="descname">mergeSBML_hdd</code><a class="headerlink" href="#rpTool.mergeSBML_hdd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge one or more SBML files together</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_tar</strong> (<em>str</em>) – The path of the TAR input containing the SBML file</p></li>
+<li><p><strong>target_sbml</strong> (<em>str
+:type output_tar: str</em>) – The path of the SBML file to merge to
+:param output_tar: The path of the TAR output file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The success or failure of the function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpToolServe.main">
+<em class="property">class </em><code class="descclassname">rpToolServe.</code><code class="descname">main</code><a class="headerlink" href="#rpToolServe.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge one or more SBML files together</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em>) – The path of the TAR or SBML input containing the SBML file</p></li>
+<li><p><strong>inout_format</strong> – The format input of the source (Valid Options: [tar, sbml])</p></li>
+<li><p><strong>target_sbml</strong> (<em>str</em>) – The path of the SBML file to merge to</p></li>
+<li><p><strong>output</strong> (<em>str</em>) – The path of the TAR or SBML output file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="run.main">
+<em class="property">class </em><code class="descclassname">run.</code><code class="descname">main</code><a class="headerlink" href="#run.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge two SBML files or a collection of SBML files in the form of a TAR and another SBML file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sourcefile</strong> (<em>str</em>) – The path of the TAR or SBML input containing the SBML file</p></li>
+<li><p><strong>inout_format</strong> (<em>str</em>) – The format input of the source (Valid Options: [tar, sbml])</p></li>
+<li><p><strong>target_sbml</strong> (<em>str</em>) – The path of the SBML file to merge to</p></li>
+<li><p><strong>output</strong> (<em>str</em>) – The path to the output file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 

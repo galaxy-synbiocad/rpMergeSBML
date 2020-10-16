@@ -30,7 +30,7 @@ docker build -t brsynth/rpmergesbml-standalone:v2 .
 To run the test, untar the test.tar.xz file and run the following command:
 
 ```
-python run,py -input test/source_model.sbml -input_format sbml -target_sbml target.sbml -output test/test_output.sbml
+python run.py -sourcefile test/source_model.sbml -inout_format sbml -target_sbml target.sbml -output test/test_output.sbml
 ```
 
 ## Prerequisites
