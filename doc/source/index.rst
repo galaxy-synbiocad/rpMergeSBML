@@ -25,11 +25,17 @@ First build the rpBase_ and rpCache_ dockers before building the local one:
 
    docker build -t brsynth/rpmergesbml-standalone:v2 .
 
-The docker can be called locally using the following command:
+The docker can be called locally using the following commands. To merge a single sbml file to a sbml file:
 
 .. code-block:: bash
 
-   python run.py -input_sbml input_sbml.xml -output_sbml output_sbml.xml
+   python run.py -sourcefile /path/to/source.sbml -inout_format sbml -target_sbml /path/to/target.sbml -output output.sbml
+
+To merge a collection of rpSBML to a SBML file:
+
+.. code-block:: bash
+
+   python run.py -sourcefile /path/to/source.tar -inout_format tar -target_sbml /path/to/target.sbml -output output.tar
 
 API
 ###
