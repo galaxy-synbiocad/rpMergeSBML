@@ -22,7 +22,7 @@ Required information:
 To build the image using the Dockerfile, use the following command:
 
 ```
-docker build -t brsynth/rpmergesbml-standalone:v2 .
+docker build -t brsynth/rpmergesbml-standalone .
 ```
 
 ### Running the tests
